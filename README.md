@@ -1,6 +1,10 @@
-# 18h.animezilla
+# 18h.animezilla 漫画下载程序
 
 运行后直接输入所要下载漫画的首页 例如 ： https://18h.animezilla.com/manga/2730
 
+PS：因pycharm 无法在输入链接后回车，所以需要删除最后一位之后手动输入才能正常回车
+
 运行后自动在F盘创建漫画目录，之后根据对应漫画名称创建目录
+
+
 
