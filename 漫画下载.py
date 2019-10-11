@@ -21,7 +21,7 @@ headers = {
         'Referer': url,
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
 #保存位置
-downloadname = r"F://漫画2//"
+downloadname = r"F://漫画//"
 
 def download_img(src,dirnames,filename):
 
