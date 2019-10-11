@@ -20,41 +20,50 @@ url = str(url_base+'/')
 headers = {
         'Referer': url,
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'}
+#保存位置
+downloadname = r"F://漫画2//"
 
+def download_img(src,dirnames,filename):
 
-def download_img(src,dirname,filename):
-
-    dirnames = 'f:/漫画/'+ dirname +'/'
-    if not os.path.exists(dirnames):
-        os.makedirs(dirnames)
-    img = requests.get(src,headers=headers)
-    with open(dirnames+filename +'.jpg', 'wb') as fd:         #因在url中截取的real_ad末尾并没有格式故在文件名后加入“.jpg”以添加固定格式
-         fd.write(img.content)
+    img = requests.get(src, headers=headers)
+    os.chdir(dirnames)                          #打开要写入内容的文件夹
+    with open(filename,'wb') as fd:             #将图片写入
+        fd.write(img.content)
+        fd.close()
 
 def get_page(url):
 
     resp=requests.get(url,headers=headers)
-    filename = url.split('/')[-1]
+    filename = url.split('/')[-1]+'.jpg'
     print(url)
     html = etree.HTML(resp.text)
     title = str(html.xpath('/html/head/title/text()'))
     dirnames = title.split('- 成人H漫畫')[0]
-    dirname2 = dirnames.replace('/', '-')
-    dirname = dirname2.replace("['", '')
+    delname_1 = dirnames.replace('/', '-')
+    delname_2 = delname_1.replace("['", '')
+    delname_3 = delname_2.replace('\'', '')
+    delname_4 = delname_3.replace('<','')
+    delname_5 = delname_4.replace('>','')
+    delname_6 = delname_5.replace('?', '')
+    delname_7 = delname_6.replace('｜', '')
+    delname_8 = delname_7.replace("'", '')
+    delname_9 = delname_8.replace('"', '')
+    dirnames = os.path.join(downloadname,delname_9)
+
+    if not os.path.exists(dirnames):
+           os.makedirs(dirnames)
     scrs = html.xpath('//*[@id="comic"]/@src')
-    ex = futures.ThreadPoolExecutor(111)
+    ex = futures.ThreadPoolExecutor(10)
     for scr in scrs:
-        ex.submit(download_img,scr,dirname,filename)
+        ex.submit(download_img,scr,dirnames,filename)
     next_link = html.xpath('//*[@class="nextpostslink"]/@href')
     return next_link
 
 def main():
 
-    link = url
-    print(link)
-    next_link_base = str(link)
+    next_link_base = str(url)
     current_num = 0
-    next_link = [str(link)]
+    next_link = [str(url)]
     while next_link:
         time.sleep(1)
         current_num = current_num + 1
