@@ -39,16 +39,8 @@ def get_page(url):
     html = etree.HTML(resp.text)
     title = str(html.xpath('/html/head/title/text()'))
     dirnames = title.split('- 成人H漫畫')[0]
-    delname_1 = dirnames.replace('/', '-')
-    delname_2 = delname_1.replace("['", '')
-    delname_3 = delname_2.replace('\'', '')
-    delname_4 = delname_3.replace('<','')
-    delname_5 = delname_4.replace('>','')
-    delname_6 = delname_5.replace('?', '')
-    delname_7 = delname_6.replace('｜', '')
-    delname_8 = delname_7.replace("'", '')
-    delname_9 = delname_8.replace('"', '')
-    dirnames = os.path.join(downloadname,delname_9)
+    delname = dirnames.replace('/', '-').replace("['", '').replace('\'', '').replace('<','').replace('>','').replace('?', '').replace('｜', '').replace("'", '').replace('"', '')
+    dirnames = os.path.join(downloadname,delname)
 
     if not os.path.exists(dirnames):
            os.makedirs(dirnames)
