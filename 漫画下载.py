@@ -57,6 +57,7 @@ def get_page(url):
 def main():
 
     next_link_base = str(url)
+    "如果中间报错中断，可以将下方数字0更改为从中断后一位数字重新开始"
     current_num = 0
     next_link = [str(url)]
     while next_link:
